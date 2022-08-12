@@ -9,7 +9,7 @@ import gphoto2 as gp
 import signal
 import readchar
 
-photos_per_frame = 3
+photos_per_frame = 1
 ppf = photos_per_frame
 focal_depth = -1000
 
@@ -43,13 +43,10 @@ def main():
   print("connected to: " + serialPort.portstr)
   printbuffer(serialPort)
   time.sleep(2)
-  px = x//ppf
-  py = x//ppf
-  pz = x//ppf
   for i in range(photos_per_frame):
     print("frame " + str(i))
     printbuffer(serialPort)
-    move_stage(serialPort,px,py,pz)
+    move_stage(serialPort,x//ppf,y//ppf,z//ppf)
     os.system("gphoto2 --capture-preview --force-overwrite --filename=test_" + str(i) + ".jpg")
   printbuffer(serialPort)
   serialPort.close()
