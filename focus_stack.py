@@ -9,7 +9,7 @@ import gphoto2 as gp
 import signal
 import readchar
 
-photos_per_frame = 20
+photos_per_frame = 10
 ppf = photos_per_frame
 
 x = 0
@@ -46,7 +46,7 @@ def stack_and_return(serialPort):
     print("frame " + str(total_photos))
     printbuffer(serialPort)
     move_stage(serialPort,x//ppf,y//ppf,z//ppf)
-    os.system("gphoto2 --capture-image --force-overwrite --filename=test_" + str(i) + ".jpg")
+    os.system("gphoto2 --capture-image-and-download --force-overwrite --folder=/home/poe/new_pics")
   time.sleep(5)
   move_stage(serialPort,-1*x,-1*y,-1*z)
 
@@ -80,7 +80,8 @@ def main():
 
   pan_distance = 10000
 
-  stack_up_down(serialPort,pan_distance)
+#  stack_up_down(serialPort,pan_distance)
+  stack_and_return(serialPort)
 
   printbuffer(serialPort)
   serialPort.close()
