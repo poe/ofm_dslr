@@ -9,7 +9,7 @@ import gphoto2 as gp
 import signal
 import readchar
 
-photos_per_frame = 20
+photos_per_frame = 35
 ppf = photos_per_frame
 
 x = 0
@@ -48,34 +48,29 @@ def stack_and_return(serialPort):
     move_stage(serialPort,x//ppf,y//ppf,z//ppf)
     os.system("gphoto2 --capture-image-and-download --force-overwrite --folder=/home/poe/new_pics")
   time.sleep(5)
-  move_stage(serialPort,-1 * x,-1 * y,-1 * z)
+  move_stage(serialPort,-1*x,-1*y,-1*z)
 
-def stack_x(serialPort,pan_distance):
-  move_stage(serialPort,0,pan_distance,-1 * pan_distance)
+def stack_left_right(serialPort,pan_distance):
   stack_and_return(serialPort)
-  move_stage(serialPort,0,-1 * pan_distance,pan_distance)
+  
+  move_stage(serialPort,pan_distance,0,-pan_distance)
+  stack_and_return(serialPort)
+  move_stage(serialPort,-pan_distance,0,pan_distance)
 
-  move_stage(serialPort,0,-1 * pan_distance,pan_distance)
+  move_stage(serialPort,pan_distance,0,-pan_distance)
   stack_and_return(serialPort)
-  move_stage(serialPort,0,pan_distance,-1 * pan_distance)
+  move_stage(serialPort,-pan_distance,0,pan_distance)
 
-def stack_y(serialPort,pan_distance):
-  move_stage(serialPort,pan_distance,0,-1 * pan_distance)
-  stack_and_return(serialPort)
-  move_stage(serialPort,-1 * pan_distance,0,pan_distance)
+def stack_up_down(serialPort,pan_distance):
+  stack_left_right(serialPort,pan_distance)
 
-  move_stage(serialPort,-1 * pan_distance,0,pan_distance)
-  stack_and_return(serialPort)
-  move_stage(serialPort,pan_distance,0,-1 * pan_distance)
+  move_stage(serialPort,pan_distance,-pan_distance*2,pan_distance)
+  stack_left_right(serialPort,pan_distance)
+  move_stage(serialPort,-pan_distance,pan_distance*2,-pan_distance)
 
-def stack_z(serialPort,pan_distance):
-  move_stage(serialPort,pan_distance,-1 * pan_distance,0)
-  stack_and_return(serialPort)
-  move_stage(serialPort,-1 * pan_distance,pan_distance,0)
-
-  move_stage(serialPort,-1 * pan_distance,pan_distance,0)
-  stack_and_return(serialPort)
-  move_stage(serialPort,pan_distance,-1 * pan_distance,0)
+  move_stage(serialPort,-pan_distance,pan_distance*2,-pan_distance)
+  stack_left_right(serialPort,pan_distance)
+  move_stage(serialPort,pan_distance,-pan_distance*2,pan_distance)
 
 def main():
   serialPort = serial.Serial(port="/dev/ttyACM0", baudrate=115200, bytesize=8, timeout=2, stopbits=serial.STOPBITS_ONE)
@@ -85,13 +80,8 @@ def main():
 
   pan_distance = 10000
 
+#  stack_up_down(serialPort,pan_distance)
   stack_and_return(serialPort)
-#  stack_x(serialPort,16000)
-#  stack_y(serialPort,16000)
-#  stack_z(serialPort,16000)
-#  stack_x(serialPort,32000)
-#  stack_y(serialPort,32000)
-#  stack_z(serialPort,32000)
 
   printbuffer(serialPort)
   serialPort.close()

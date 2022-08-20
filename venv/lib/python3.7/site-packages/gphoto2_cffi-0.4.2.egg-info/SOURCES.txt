@@ -1,0 +1,16 @@
+MANIFEST.in
+README.rst
+setup.py
+gphoto2_cffi.egg-info/PKG-INFO
+gphoto2_cffi.egg-info/SOURCES.txt
+gphoto2_cffi.egg-info/dependency_links.txt
+gphoto2_cffi.egg-info/not-zip-safe
+gphoto2_cffi.egg-info/requires.txt
+gphoto2_cffi.egg-info/top_level.txt
+gphoto2cffi/__init__.py
+gphoto2cffi/backend.py
+gphoto2cffi/backend_build.py
+gphoto2cffi/errors.py
+gphoto2cffi/gphoto2.cdef
+gphoto2cffi/gphoto2.py
+gphoto2cffi/util.py
