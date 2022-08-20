@@ -9,7 +9,7 @@ import gphoto2 as gp
 import signal
 import readchar
 
-photos_per_frame = 20
+photos_per_frame = 2
 ppf = photos_per_frame
 
 x = 0
@@ -26,6 +26,8 @@ if __name__ == "__main__":
     z = int(sys.argv[3])
   except IndexError:
     raise SystemExit(f"Usage: move_stage.py x y z")
+
+
 
 def move_stage(serialPort,x,y,z):
   focus_move = str.encode("mr " + str(x) + " " + str(y) + " " + str(z))
@@ -86,12 +88,12 @@ def main():
   pan_distance = 10000
 
   stack_and_return(serialPort)
-#  stack_x(serialPort,16000)
-#  stack_y(serialPort,16000)
-#  stack_z(serialPort,16000)
-#  stack_x(serialPort,32000)
-#  stack_y(serialPort,32000)
-#  stack_z(serialPort,32000)
+  stack_x(serialPort,16000)
+  stack_y(serialPort,16000)
+  stack_z(serialPort,16000)
+  stack_x(serialPort,32000)
+  stack_y(serialPort,32000)
+  stack_z(serialPort,32000)
 
   printbuffer(serialPort)
   serialPort.close()
